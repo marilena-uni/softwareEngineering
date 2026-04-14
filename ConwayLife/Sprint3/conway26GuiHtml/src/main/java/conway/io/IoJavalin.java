@@ -10,16 +10,20 @@ import io.javalin.http.staticfiles.Location;
 import io.javalin.websocket.WsConnectContext;
 import io.javalin.websocket.WsContext;
 import io.javalin.websocket.WsMessageContext;
+import main.java.conway.domain.GameController;
+import main.java.conway.domain.IGrid;
+import main.java.conway.domain.IOutDev;
 import unibo.basicomm23.utils.CommUtils;
 import unibo.basicomm23.interfaces.IApplMessage;
 import unibo.basicomm23.msg.ApplMessage;
 
-public class IoJavalin {
+public class IoJavalin implements IOutDev{
 	
 	private static AtomicInteger pageCounter = new AtomicInteger(0);
 	private WsMessageContext pageCtx, lifeCtrlCtx ;
 	private String name;
 	private String firstCaller        = null;
+	private GameController controller;
 	//private WsConnectContext ownerctx = null;
 	protected Vector<WsConnectContext> allConns = new Vector<WsConnectContext>();
 
@@ -137,6 +141,12 @@ public class IoJavalin {
 //                    TimeUnit.SECONDS
 //            );
 		            });
+            
+            ws.onClose(ctx -> {
+                allConns.remove(ctx);
+                if(ctx.equals(pageCtx)) pageCtx = null;
+                CommUtils.outred("Client disconnected. Remaining: " + allConns.size());
+            } );
              
             ws.onMessage(ctx -> {
                 String message = ctx.message();     
@@ -159,6 +169,7 @@ public class IoJavalin {
                      }else if( m.msgReceiver().equals(name) && m.msgContent().contains("cell(")) {                   
                     	if (pageCtx != null) {
                         	//Funziona se ci sono 3 arg - es. cell(5,6,1)
+                    		decodeAndForwardCell(m.msgContent());
                     		pageCtx.send( m.msgContent()); 
                      	}
                     	if( m.isRequest() ) {  //m viene da fuori, non dalla pagina
@@ -187,6 +198,13 @@ public class IoJavalin {
 //                    			sendsafe( pageCtx,  m.msgContent() );                   		
                      	}
                     }
+                 else if (m.msgContent().equals("start")) {
+                    if(controller != null) controller.onStart(); 
+                } else if (m.msgContent().equals("stop")) {
+                    if(controller != null) controller.onStop();
+                } else if (m.msgContent().equals("clear")) {
+                    if(controller != null) controller.onClear();
+                }
 //                    CommUtils.outcyan(name + " |  allConns:" +allConns.size());
 //                    allConns.forEach( (conn) ->	conn.send(m.msgContent()) );
                 }catch(Exception e) {
@@ -205,12 +223,77 @@ public class IoJavalin {
         }
     }
 	
+ // funzione di appoggio per estrarre riga e colonna della cella e andare a cambiarle stato
+ 	private void decodeAndForwardCell(String mess)
+ 	{
+ 		try {
+ 		String data = mess.replace("cell(", "").replace(")", "");
+ 		String[] part = data.split(",");
+ 		
+ 		int x = Integer.parseInt(part[0].trim());
+ 		int y = Integer.parseInt(part[1].trim());
+ 		
+ 		controller.switchCellState(x, y);}
+ 		
+ 		catch (Exception e) {
+ 	        CommUtils.outred("Errore decodifica cella: " + e.getMessage());
+ 	    }
+ 	}
 
+    
 	
 	public static void main(String[] args) {
 		var resource = IoJavalin.class.getResource("/pages");
 		CommUtils.outgreen("DEBUG: La cartella /page si trova in: " + resource);
 		new IoJavalin("guiserver");
+	}
+	
+	public void setController(GameController controller) {
+		this.controller = controller;
+		}
+
+	@Override
+	public void display(String msg) {
+		
+		if ( lifeCtrlCtx != null && this.lifeCtrlCtx.session.isOpen()) {
+			lifeCtrlCtx.send(msg);
+	    }
+		this.allConns.forEach(session -> {
+	        if (session.session.isOpen()) {
+	            session.send(msg);
+	        }
+	    });
+	}
+
+	@Override
+	public void displayCell(IGrid grid, int x, int y) {
+		
+		int state = grid.getCellValue(x, y) ? 1 : 0;
+		String mess = "cell(" + x + "," + y + "," + state + ")";
+
+
+		display(mess);
+		
+	}
+
+	@Override
+	public void close() {
+		allConns.forEach(ctx -> ctx.session.close());
+	    allConns.clear();
+	    CommUtils.outred("IoJavalin | Risorsa chiusa.");
+		
+	}
+
+	@Override
+	public void displayGrid(IGrid grid) {
+		
+		for(int i=0; i<grid.getRowsNum(); i++)
+		{
+			for(int j=0; j<grid.getColsNum(); j++)
+			{
+				this.displayCell(grid, i, j);
+			}
+		}
 	}
 
 }

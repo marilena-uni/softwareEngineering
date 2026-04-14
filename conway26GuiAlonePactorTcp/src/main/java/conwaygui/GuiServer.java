@@ -29,8 +29,11 @@ public class GuiServer extends AbstractProtoactor26 {
 		super(name, ctx);
 		jvlnserver = new IoJavalin("javaliniserver", this);
 		
+		if(!MainGuiServer.workingForPolling)
+		{
+		MqttBroker = "tcp://localhost:1883"; //"tcp://broker.hivemq.com"; 
 		mqttsupport.connectToBroker(name,MqttBroker);
-		mqttsupport.cleartopic("lifeGameIn");
+		mqttsupport.cleartopic("lifeGameIn");}
 	}
 
 	/*
