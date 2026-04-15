@@ -1,0 +1,10 @@
+System conway26demoqak
+
+Context ctxgame ip [host="localhost" port=8010]
+
+QActor lifegame context ctxgame{
+	State s0 initial {
+		println("$name | starting") color blue
+		[# System.exit(0) #]
+	}
+}

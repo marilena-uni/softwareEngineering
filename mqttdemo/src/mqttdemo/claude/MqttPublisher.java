@@ -19,11 +19,14 @@ public class MqttPublisher {
  }
  
  public void connect() throws MqttException {
+	 
+	 //definisco delle opzioni
      MqttConnectOptions options = new MqttConnectOptions();
      options.setCleanSession(true);
      options.setAutomaticReconnect(true);
      
      System.out.println(clientId + " | Connessione a: " + broker);
+     //fa la connessione al broker
      client.connect(options);
      System.out.println(clientId + " | Connesso!");
  }
@@ -45,7 +48,10 @@ public class MqttPublisher {
  }
  
  public static void main(String[] args) {
-     String broker   = "tcp://localhost:1883"; //"tcp://broker.hivemq.com:1883";
+	 
+	 String broker   = "tcp://localhost:1883"; //"tcp://broker.hivemq.com:1883"; -> broker di rete
+     
+     //nomi diversi
      String clientId = "Publisher_" ; //+ System.currentTimeMillis();
      
      try {
@@ -59,6 +65,7 @@ public class MqttPublisher {
          Thread.sleep(1000);
          publisher.publish("test/status", "online", 0);
          
+         //si disconette
          publisher.disconnect();
          
      } catch (Exception e) {

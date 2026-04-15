@@ -12,6 +12,8 @@ public class MqttSubscriber {
  private String broker;
  private String clientId;
  
+ //SPECIFICA UN SET CALL BACK
+ 
  public MqttSubscriber(String broker, String clientId) throws MqttException {
      this.broker   = broker;
      this.clientId = clientId;

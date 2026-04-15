@@ -13,8 +13,8 @@ public class AutoMsgMqtt {
 		MqttClient client = new MqttClient("tcp://localhost:1883", clientID);
 		client.connect();
 		CommUtils.outblue(clientID + " | connected");
-		//Subscribe
 		
+		//Subscribe -> c'è una lambda 
 		client.subscribe("unibo/mqttdemo", (topic, msg) -> {
 			CommUtils.outmagenta(clientID + " | Riceve: " + new String(msg.getPayload()));
 		});
