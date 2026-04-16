@@ -27,4 +27,8 @@ with Diagram('conway26demoqakArch', show=False, outformat='png', graph_attr=grap
 ### see https://renenyffenegger.ch/notes/tools/Graphviz/attributes/label/HTML-like/index
      with Cluster('ctxgame', graph_attr=nodeattr):
           lifegame=Custom('lifegame','./qakicons/symActorWithobjSmall.png')
+          inputmock=Custom('inputmock','./qakicons/symActorWithobjSmall.png')
+     sys >> Edge( label='start', **evattr, decorate='true', fontcolor='darkgreen') >> lifegame
+     sys >> Edge( label='stop', **evattr, decorate='true', fontcolor='darkgreen') >> lifegame
+     sys >> Edge( label='clear', **evattr, decorate='true', fontcolor='darkgreen') >> lifegame
 diag

@@ -29,7 +29,10 @@ public class IoJavalin {
 	 * Interazione con il lifegame via MQTT
 	 */
 	private static AtomicInteger pageCounter = new AtomicInteger(0);
+	
+	//per tenere memoria al link della connessione della prima pagine
 	public WsMessageContext pageCtx;
+	
 	private WsMessageContext lifeCtrlCtx ;
 	private String name;
 	private String firstCaller        = null;

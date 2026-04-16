@@ -25,6 +25,8 @@ public class GuiServer extends AbstractProtoactor26 {
  	 * Devi usare un Delimitatore (es. ogni messaggio finisce con \n) o 
  	 * un Header di Lunghezza (es. i primi 4 byte dicono quanto è lungo il messaggio).
  	 */
+ 	
+ 	
 	public GuiServer(String name, ProtoActorContextInterface ctx) {
 		super(name, ctx);
 		jvlnserver = new IoJavalin("javaliniserver", this);
@@ -96,11 +98,23 @@ public class GuiServer extends AbstractProtoactor26 {
 		lastCmdIn = m.msgContent();
 	}
 	/*
-	 * Called by jvlnserver. Perceived by LifeGamePactorCmdEvent
+	 * Called by jvlnserver.
+	 * m = 
+	 * Pubòlish an event to be perceived by LifeGamePactorCmdEvent
 	 */
 	public void answerToReadEvent(IApplMessage m) {
-		String payload = m.msgContent()+"(do)";
-		IApplMessage ev = CommUtils.buildEvent(name, m.msgContent(), payload);
+		CommUtils.outmagenta(name + " | answerToReadEvent  " + m );
+		//ADEGUO EVENTO AL LINGUAGGIO DELLA APPL
+		String msgId   = "";
+		String payload = m.msgContent() ;
+		if( payload.equals("start") || payload.equals("stop") 
+				|| payload.equals("clear") || payload.equals("exit")  ) {
+			msgId   = payload;
+			payload = payload+"(gui)";
+		}else { //cell
+			msgId   = "cellstate";
+		}
+		IApplMessage ev = CommUtils.buildEvent(name, msgId, payload);
 		CommUtils.outmagenta(name + " | answerToReadEvent from jvlnserver publish on lifegameIn: " + ev );
 		mqttsupport.publish(  "lifegameIn",ev.toString(),1,false );  //last arg: retained
 	}
@@ -108,7 +122,7 @@ public class GuiServer extends AbstractProtoactor26 {
 
 
 	protected void hanleMsgFromAppl(IApplMessage m) {
-		CommUtils.outyellow(name + " | hanleMsgFromAppl " + m.msgId() );
+//		CommUtils.outyellow(name + " | hanleMsgFromAppl " + m  );
 		if (m.msgReceiver().equals(name) && m.msgContent().startsWith("[[")) { // canvas rep
 //			CommUtils.outcyan(name + " | receives [[" + " from " + m.msgSender() + " to "
 //			+ m.msgReceiver());
@@ -123,10 +137,7 @@ public class GuiServer extends AbstractProtoactor26 {
 			}
 			return;
 		}
-//    	if( m.msgReceiver().equals(name) && m.msgId().contains("endremoteclient")) { 
-//    		CommUtils.outmagenta(name + " | receives endremoteclient. Removing a ctx");
-//    		allConns.remove(ctx);
-//    	}
+
 	}
 
 }

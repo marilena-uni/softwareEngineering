@@ -10,7 +10,7 @@ const canvas = document.getElementById("gridCanvas");
 const ctx = canvas.getContext("2d");
 const statusDiv = document.getElementById("status");
 
-var pageId         = "unknown"
+var pageId         = "unknown"  //questa variabile viene settata da socket to gui
 
 var opened = true;
 
