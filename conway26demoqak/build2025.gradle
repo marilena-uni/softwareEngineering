@@ -114,27 +114,13 @@ dependencies {
     
     
 }
-/*	
-sourceSets {
-    main.java.srcDirs += 'src'
-    main.java.srcDirs += 'src/main/java'
-    main.java.srcDirs += 'src/main/kotlin'
-    main.java.srcDirs += 'src/main/resources'
-    test.java.srcDirs += 'src/main/java/test'		//test is specific
-    test.java.srcDirs += 'src/main/kotlin/test'
-}
-*/
+
 sourceSets {
     main {
         java {
-            srcDir 'src/main/java'
+            srcDir 'utils'
             srcDir 'src'   // Importante per i file generati Qak
-        }
-        kotlin {
-            srcDir 'src/main/kotlin'
-        }
-        resources {
-            srcDir 'src/main/resources'
+            exclude 'main/**'
         }
     }
 }  

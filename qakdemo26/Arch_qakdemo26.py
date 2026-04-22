@@ -26,10 +26,10 @@ with Diagram('qakdemo26Arch', show=False, outformat='png', graph_attr=graphattr)
      sys = Custom('','./qakicons/system.png')
 ### see https://renenyffenegger.ch/notes/tools/Graphviz/attributes/label/HTML-like/index
      with Cluster('ctxqakdemo26', graph_attr=nodeattr):
-          creator=Custom('creator','./qakicons/symActorWithobjSmall.png')
-          producer=Custom('producer','./qakicons/symActorDynamicWithobj.png')
-          consumer=Custom('consumer','./qakicons/symActorWithobjSmall.png')
-          consumerhelper=Custom('consumerhelper','./qakicons/symActorDynamicWithobj.png')
-     consumer >> Edge(color='magenta', style='dotted', decorate='true', label='<currentMsg &nbsp; >',  fontcolor='black') >> consumerhelper
-     producer >> Edge(color='magenta', style='solid', decorate='true', label='<distance<font color="darkgreen"> distanceack</font> &nbsp; r2<font color="darkgreen"> rr2</font> &nbsp; >',  fontcolor='magenta') >> consumer
+          receiver=Custom('receiver','./qakicons/symActorWithobjSmall.png')
+          sender=Custom('sender','./qakicons/symActorWithobjSmall.png')
+          perceiver=Custom('perceiver','./qakicons/symActorWithobjSmall.png')
+     sender >> Edge( label='alarm', **eventedgeattr, decorate='true', fontcolor='red') >> sys
+     sys >> Edge( label='alarm', **evattr, decorate='true', fontcolor='darkgreen') >> perceiver
+     sender >> Edge(color='blue', style='solid',  decorate='true', label='<msg1 &nbsp; msg2 &nbsp; >',  fontcolor='blue') >> receiver
 diag

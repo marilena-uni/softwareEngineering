@@ -1,17 +1,14 @@
 %====================================================================================
 % qakdemo26 description   
 %====================================================================================
-request( distance, distance(D) ).
-reply( distanceack, ack(D) ).  %%for distance
-request( r2, r2(X) ).
-reply( rr2, rr2(X) ).  %%for r2
+dispatch( msg1, msg1(ARG) ). %da sender a receiver
+dispatch( msg2, msg2(ARG) ). %da sender a receiver
+event( alarm, alarm(KIND) ). %emesso da sender
 %====================================================================================
-context(ctxqakdemo26, "localhost",  "TCP", "8045").
- qactor( creator, ctxqakdemo26, "it.unibo.creator.Creator").
- static(creator).
-  qactor( producer, ctxqakdemo26, "it.unibo.producer.Producer").
-dynamic(producer). %%Oct2023 
-  qactor( consumer, ctxqakdemo26, "it.unibo.consumer.Consumer").
- static(consumer).
-  qactor( consumerhelper, ctxqakdemo26, "it.unibo.consumerhelper.Consumerhelper").
-dynamic(consumerhelper). %%Oct2023 
+context(ctxqakdemo26, "localhost",  "TCP", "8010").
+ qactor( receiver, ctxqakdemo26, "it.unibo.receiver.Receiver").
+ static(receiver).
+  qactor( sender, ctxqakdemo26, "it.unibo.sender.Sender").
+ static(sender).
+  qactor( perceiver, ctxqakdemo26, "it.unibo.perceiver.Perceiver").
+ static(perceiver).

@@ -44,7 +44,7 @@ QActor receiver context ctxqakdemo26{
  			delay 1000  
  		}
    	}    
- 	Transition t0 whenMsg msg2 -> s3
+ 	Transition t0 whenMsg msg2 -> s3  //aspetto un mess del 2° tipo
 
  	State s3{ 
  		printCurrentMessage color blue	//msg is received but not elaborated
