@@ -1,0 +1,53 @@
+System firefly
+
+Dispatch cellstate : cellstate(X,Y,COLOR) "set color of cell X,Y"
+
+Context ctxfirefly ip [host="localhost" port=8040]
+
+QActor firefly1 context ctxfirefly{
+	State s0 initial {
+		printCurrentMessage color blue
+	}
+	
+	Goto flash
+	
+	State flash{
+		printCurrentMessage color yellow
+		[# var Timer= java.util.Random().nextLong(500L,1000L ) #]
+		delayVar Timer
+		//TurnoOn
+		//println("$name | turnOn $Timer") color magenta
+		forward griddisplaymock -m cellstate: cellstate(1,1,1)
+		
+		delayVar Timer
+		//TurnoOff
+		//println("$name | turnOff $Timer") color cyan
+		forward griddisplaymock -m cellstate: cellstate(1,1,0)
+	}
+	
+	
+	//Goto flash
+}
+
+
+QActor griddisplaymock context ctxfirefly{ //deve fare la luce , servizio, nanoservizio
+	
+	State s0 initial {
+		printCurrentMessage color yellow
+	}
+	
+	Transition t0
+		whenMsg cellstate -> elab
+		
+	State elab {
+		printCurrentMessage color green
+	}
+	
+	Transition t1
+		whenMsg cellstate -> elab
+	
+	
+		
+	
+	
+}
