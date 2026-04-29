@@ -2,7 +2,11 @@
   
     <!-- Appender per scrivere i log in un file -->
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+<<<<<<< HEAD
         <file>logs/firefly.log</file>
+=======
+        <file>logs/app_actorgrid.log</file>
+>>>>>>> c08e98b10c1bf8dd57e9105106fa9dd95b91740e
         <append>true</append>
         <encoder>
              <!-- <pattern>%d{yyyy-MM-dd HH:mm:ss} - %msg%n</pattern> -->

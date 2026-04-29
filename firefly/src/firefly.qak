@@ -1,10 +1,21 @@
-System firefly
+/*System firefly
 
 Dispatch cellstate : cellstate(X,Y,COLOR) "set color of cell X,Y"
 
 Context ctxfirefly ip [host="localhost" port=8040]
+Context ctxgrid ip [host="127.0.0.1" port=8050 ]
 
-QActor firefly1 context ctxfirefly{
+ExternalQActor griddisplay context ctxgrid
+
+
+QActor firefly1 context ctxfirefly dynamicOnly{
+	[#
+		var X = 1 
+		var Y = 1
+		var ON = 1
+		var OFF = 0
+	#]
+	
 	State s0 initial {
 		printCurrentMessage color blue
 	}
@@ -17,19 +28,19 @@ QActor firefly1 context ctxfirefly{
 		delayVar Timer
 		//TurnoOn
 		//println("$name | turnOn $Timer") color magenta
-		forward griddisplaymock -m cellstate: cellstate(1,1,1)
+		forward griddisplay -m cellstate: cellstate($X,$Y,1)
 		
 		delayVar Timer
 		//TurnoOff
 		//println("$name | turnOff $Timer") color cyan
-		forward griddisplaymock -m cellstate: cellstate(1,1,0)
+		forward griddisplay -m cellstate: cellstate($X,$Y,0)
 	}
 	
 	
-	//Goto flash
+	Goto flash
 }
-
-
+*/
+/* 
 QActor griddisplaymock context ctxfirefly{ //deve fare la luce , servizio, nanoservizio
 	
 	State s0 initial {
@@ -46,8 +57,145 @@ QActor griddisplaymock context ctxfirefly{ //deve fare la luce , servizio, nanos
 	Transition t1
 		whenMsg cellstate -> elab
 	
-	
 		
 	
 	
+}*/
+
+/* 
+System /* -trace */ //firefly
+/*
+ * firefly5.qak
+ * L'actor creator usa la primiitva create per creare 5 istanze 
+ * dell'actor firefly dichiarato dynamicOnly
+ * 
+ * ATTIVARE griddisplay 
+ */
+ /* 
+Dispatch cellstate : cellstate(X,Y,COLOR)     "commute cell state"
+
+Context ctxfirefly ip [ host="localhost"      port=8040 ] 
+Context ctxgrid    ip [ host="127.0.0.1"  port=8050 ]
+
+ExternalQActor griddisplay context ctxgrid
+*/
+/* 
+QActor creator context ctxfirefly{
+	State s0 initial{    
+   	 	[#   
+		 clearlog("./logs/app_firefly.log") 	//vedi src/main/resources/logback.xml
+	 	#]
+		delay 500 
+//		[# logger.info(  "${currentState.stateName} creates 25 firefly "  ) #]
+		create firefly _"1" //confined omitted
+		create firefly _"2"
+		create firefly _"3"
+		create firefly _"4"
+		create firefly _"5"
+ 	} 
+}   
+
+ QActor firefly context ctxfirefly  dynamicOnly{     
+ 
+	[#   
+	   var  X          = 0
+	   var  Y          = 0
+	   var Timer       = 500L 
+	   
+	   fun setCellCoords( )  {
+     		val coordY = name.replace("firefly_","")    
+      		Y  = coordY.toInt()        
+  		}		
+	   
+ 	#] 
+	State s0 initial{
+		[# setCellCoords( )                                   #]
+		[# Timer = java.util.Random().nextLong(1000L,2000L )  #]  
+		println("$name | X=$X Y=$Y  Timer=$Timer") color magenta	
+	}
+	Goto flash
+	State flash{
+		//delayVar Timer
+		//TurnoOn
+ 		forward griddisplay -m  cellstate : cellstate($X,$Y,1) 				
+ 		delay 500	
+		//TurnoOff
+ 		forward griddisplay -m  cellstate : cellstate($X,$Y,0) 				
+	}
+	Transition t0 
+		whenTimeVar Timer -> flash         //non percepisco flash di altre
+ 	
+}*/
+
+System /* -trace */ firefly
+/*
+ * fireflyMany.qak
+ * L'actor creator usa il metodo createActorDynamically
+ * per creare 400 istanze dell'actor firefly dichiarato dynamicOnly.
+ * 
+ * Ogni actor firefly creato ha nome firefly_X_Y, da cui 
+ * ricava le coordinate della griglia destinate a reppresentare
+ * il suo stato
+ *
+ * ATTIVARE griddisplay
+ */
+Dispatch cellstate : cellstate(X,Y,COLOR)     "commute cell state"
+
+Context ctxfirefly ip [ host="localhost"      port=8040 ] 
+Context ctxgrid    ip [ host="127.0.0.1"  port=8050 ]
+
+ExternalQActor griddisplay context ctxgrid
+
+ 
+QActor creator context ctxfirefly{
+	State s0 initial{    
+   	 	[#   
+		 clearlog("./logs/app_actorgrid.log") 	//vedi src/main/resources/logback.xml
+	 	#]
+		delay 500 
+//		[# logger.info(  "${currentState.stateName} creates 25 firefly "  ) #]
+		[#
+	    	for( i in 0..19 ){
+	    		for( j in 0..19 ){
+	    			CommUtils.outcyan("$name | CREATES firefly_${i}_${j}")  
+	    			createActorDynamically( "firefly", "_${i}_${j}", false)
+	    		}
+	    	}		 
+    	#]
+	}
+}   
+
+ QActor firefly context ctxfirefly dynamicOnly {  
+ 
+	[# 
+	   var  X          = 0
+	   var  Y          = 0
+	   var Timer       = 500L 
+	   
+	    fun setCellCoords( )  {
+     		val coords = name.replace("firefly_","").split("_")   
+     		X  = coords[0].toInt()
+     		Y  = coords[1].toInt()        
+  		}		
+ 	#] 
+	State s0 initial{
+		[# Timer = java.util.Random().nextLong(1000L,2000L )  #]  
+		[# setCellCoords( )                                   #]
+		println("$name | X=$X Y=$Y  Timer=$Timer") color magenta	
+		[# logger.info(  "$name  created $X,$Y "  ) #]
+	}
+	Goto flash
+	State flash{
+		//delayVar Timer
+		//TurnoOn
+ 		forward griddisplay -m  cellstate : cellstate($X,$Y,1) 				
+ 		delay 500	
+		//TurnoOff
+ 		forward griddisplay -m  cellstate : cellstate($X,$Y,0) 				
+	}
+	Transition t0 
+		whenTimeVar Timer -> flash         //non percepisco flash di altre
+ 	
 }
+
+ 

@@ -29,4 +29,8 @@ with Diagram('sistemasqakArch', show=False, outformat='png', graph_attr=graphatt
           sistemas=Custom('sistemas','./qakicons/symActorWithobjSmall.png')
           callermock=Custom('callermock','./qakicons/symActorWithobjSmall.png')
      callermock >> Edge(color='magenta', style='solid', decorate='true', label='<evalr<font color="darkgreen"> evalreply</font> &nbsp; >',  fontcolor='magenta') >> sistemas
+<<<<<<< HEAD
+=======
+     callermock >> Edge(color='blue', style='solid',  decorate='true', label='<eval &nbsp; >',  fontcolor='blue') >> sistemas
+>>>>>>> c08e98b10c1bf8dd57e9105106fa9dd95b91740e
 diag

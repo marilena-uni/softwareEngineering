@@ -32,15 +32,25 @@ class Callermock ( name: String, scope: CoroutineScope, isconfined: Boolean=fals
 		return { //this:ActionBasciFsm
 				state("s0") { //this:State
 					action { //it:State
+<<<<<<< HEAD
 						CommUtils.outblue("$name | start ")
 						 var V = "2.0"  
+=======
+						CommUtils.outgreen("$name | start ")
+						 var V = "2.0"  
+						forward("eval", "arg($V)" ,"sistemas" ) 
+>>>>>>> c08e98b10c1bf8dd57e9105106fa9dd95b91740e
 						request("evalr", "argr($V)" ,"sistemas" )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
+<<<<<<< HEAD
 					 transition(edgeName="t02",targetState="handleReply",cond=whenReply("evalreply"))
+=======
+					 transition(edgeName="t06",targetState="handleReply",cond=whenReply("evalreply"))
+>>>>>>> c08e98b10c1bf8dd57e9105106fa9dd95b91740e
 				}	 
 				state("handleReply") { //this:State
 					action { //it:State

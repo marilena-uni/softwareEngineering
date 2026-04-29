@@ -20,7 +20,7 @@ import org.json.simple.JSONObject
 
 //User imports JAN2024
 
-class Firefly1 ( name: String, scope: CoroutineScope, isconfined: Boolean=false, isdynamic: Boolean=false ) : 
+class Firefly1 ( name: String, scope: CoroutineScope, isconfined: Boolean=false, isdynamic: Boolean=true ) : 
           ActorBasicFsm( name, scope, confined=isconfined, dynamically=isdynamic ){
 
 	override fun getInitialState() : String{
@@ -29,6 +29,11 @@ class Firefly1 ( name: String, scope: CoroutineScope, isconfined: Boolean=false,
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		//val interruptedStateTransitions = mutableListOf<Transition>()
 		//IF actor.withobj !== null val actor.withobj.name� = actor.withobj.method�ENDIF
+		
+				var X = 1 
+				var Y = 1
+				var ON = 1
+				var OFF = 0
 		return { //this:ActionBasciFsm
 				state("s0") { //this:State
 					action { //it:State
@@ -47,14 +52,15 @@ class Firefly1 ( name: String, scope: CoroutineScope, isconfined: Boolean=false,
 						 	   
 						 var Timer= java.util.Random().nextLong(500L,1000L )  
 						delay(Timer)
-						forward("cellstate", "cellstate(1,1,1)" ,"griddisplaymock" ) 
+						forward("cellstate", "cellstate($X,$Y,1)" ,"griddisplay" ) 
 						delay(Timer)
-						forward("cellstate", "cellstate(1,1,0)" ,"griddisplaymock" ) 
+						forward("cellstate", "cellstate($X,$Y,0)" ,"griddisplay" ) 
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
+					 transition( edgeName="goto",targetState="flash", cond=doswitch() )
 				}	 
 			}
 		}

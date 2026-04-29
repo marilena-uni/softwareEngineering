@@ -30,6 +30,7 @@ class Sistemas ( name: String, scope: CoroutineScope, isconfined: Boolean=false,
 		//val interruptedStateTransitions = mutableListOf<Transition>()
 		//IF actor.withobj !== null val actor.withobj.name� = actor.withobj.method�ENDIF
 		 
+<<<<<<< HEAD
 				fun eval(x: Double): String{ 
 				 val R = 3*x
 				 return ""+R
@@ -41,11 +42,25 @@ class Sistemas ( name: String, scope: CoroutineScope, isconfined: Boolean=false,
 						 val V = eval(2.0)  
 						CommUtils.outblue("result = $V")
 						CommUtils.outblack("now i am waiting for a dispatch")
+=======
+				fun eval(x: Double): String {
+				   val R = 3*x
+				   return ""+R
+				}
+		return { //this:ActionBasciFsm
+				state("s0") { //this:State
+					action { //it:State
+						CommUtils.outblue("Hello world")
+						 val V = eval(2.0)  
+						CommUtils.outblue("result=$V")
+						CommUtils.outblack("now I'm waiting for a dispatch or request")
+>>>>>>> c08e98b10c1bf8dd57e9105106fa9dd95b91740e
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
+<<<<<<< HEAD
 					 transition(edgeName="t00",targetState="handleeval",cond=whenDispatch("eval"))
 					transition(edgeName="t01",targetState="handleRequest",cond=whenRequest("evalr"))
 				}	 
@@ -63,20 +78,47 @@ class Sistemas ( name: String, scope: CoroutineScope, isconfined: Boolean=false,
 								CommUtils.outgreen("$name | evaluate $V")
 								 val R = eval(V) 
 								CommUtils.outgreen("$name | result= $R")
+=======
+					 transition(edgeName="t00",targetState="handleEval",cond=whenDispatch("eval"))
+					transition(edgeName="t01",targetState="handleRequest",cond=whenRequest("evalr"))
+				}	 
+				state("handleEval") { //this:State
+					action { //it:State
+						CommUtils.outgreen("$name in ${currentState.stateName} | $currentMsg | ${Thread.currentThread().getName()} n=${Thread.activeCount()}")
+						 	   
+						CommUtils.outmagenta("$name | currentMsg=$currentMsg")
+						if( checkMsgContent( Term.createTerm("arg(V)"), Term.createTerm("arg(X)"), 
+						                        currentMsg.msgContent()) ) { //set msgArgList
+								 val VasString = payloadArg(0)  
+											   val V         = VasString.toDouble()
+								CommUtils.outgreen("$name | evauate $V")
+								 val R = eval(V)  
+								CommUtils.outmagenta("$name | result=$R")
+>>>>>>> c08e98b10c1bf8dd57e9105106fa9dd95b91740e
 						}
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
+<<<<<<< HEAD
 				}	 
 				state("handleRequest") { //this:State
 					action { //it:State
 						CommUtils.outgreen("$name in ${currentState.stateName} | $currentMsg | ${Thread.currentThread().getName()} n=${Thread.activeCount()}")
+=======
+					 transition(edgeName="t02",targetState="handleEval",cond=whenDispatch("eval"))
+					transition(edgeName="t03",targetState="handleRequest",cond=whenRequest("evalr"))
+				}	 
+				state("handleRequest") { //this:State
+					action { //it:State
+						CommUtils.outblue("$name in ${currentState.stateName} | $currentMsg | ${Thread.currentThread().getName()} n=${Thread.activeCount()}")
+>>>>>>> c08e98b10c1bf8dd57e9105106fa9dd95b91740e
 						 	   
 						 var R = ""  
 						if( checkMsgContent( Term.createTerm("argr(V)"), Term.createTerm("argr(X)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
+<<<<<<< HEAD
 								
 												val VasString = payloadArg(0)
 												val V = VasString.toDouble()
@@ -84,6 +126,13 @@ class Sistemas ( name: String, scope: CoroutineScope, isconfined: Boolean=false,
 								CommUtils.outblue("$name | evaluate $V")
 								 R = eval(V) 
 								CommUtils.outblue("$name | result= $R")
+=======
+								 val VasString = payloadArg(0) 
+											   val V         = VasString.toDouble()
+								CommUtils.outblue("$name | evauate $V")
+								 R = eval(V)  
+								CommUtils.outblue("$name | result=$R")
+>>>>>>> c08e98b10c1bf8dd57e9105106fa9dd95b91740e
 						}
 						answer("evalr", "evalreply", "value($R)"   )  
 						CommUtils.outblue("$name | handleRequest ends")
@@ -92,6 +141,11 @@ class Sistemas ( name: String, scope: CoroutineScope, isconfined: Boolean=false,
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
+<<<<<<< HEAD
+=======
+					 transition(edgeName="t04",targetState="handleEval",cond=whenDispatch("eval"))
+					transition(edgeName="t05",targetState="handleRequest",cond=whenRequest("evalr"))
+>>>>>>> c08e98b10c1bf8dd57e9105106fa9dd95b91740e
 				}	 
 			}
 		}

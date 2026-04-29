@@ -26,7 +26,9 @@ with Diagram('fireflyArch', show=False, outformat='png', graph_attr=graphattr) a
      sys = Custom('','./qakicons/system.png')
 ### see https://renenyffenegger.ch/notes/tools/Graphviz/attributes/label/HTML-like/index
      with Cluster('ctxfirefly', graph_attr=nodeattr):
-          firefly1=Custom('firefly1','./qakicons/symActorWithobjSmall.png')
-          griddisplaymock=Custom('griddisplaymock','./qakicons/symActorWithobjSmall.png')
-     firefly1 >> Edge(color='blue', style='solid',  decorate='true', label='<cellstate &nbsp; >',  fontcolor='blue') >> griddisplaymock
+          creator=Custom('creator','./qakicons/symActorWithobjSmall.png')
+          firefly=Custom('firefly','./qakicons/symActorDynamicWithobj.png')
+     with Cluster('ctxgrid', graph_attr=nodeattr):
+          griddisplay=Custom('griddisplay(ext)','./qakicons/externalQActor.png')
+     firefly >> Edge(color='blue', style='solid',  decorate='true', label='<cellstate &nbsp; >',  fontcolor='blue') >> griddisplay
 diag
