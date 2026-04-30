@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+<link rel="stylesheet" type="text/css" href="css/mystyle.css">
+<!--
+    <script type="text/javascript" src="../css/issStyle.js"></script>
+-->
+    
+</head>
+   
+<title>fireflysynch_v0</title></head>
+    
+
+<body>
+<div id="top">
+<h1>Fireflysynch SprintA</h1>
+</div>  
+
+<div class="body">  
+
+<h2>Introduction</h2>
+<b>Goal: </b>Costruzione di un sistema composoto da 3 lucciole, che si devono sincronizzare dopo 10 secondi.
+ 
+<h2>Requirements</h2>
+<!-- <div class="remark"> -->
+Costruire il simulatore di un sistema costituito da 3 lucciole. Inizialmente, le lucciole lampeggiamo ciascuna con una frequenza (costante) propria.
+
+<ol class="req-list">
+	<li>
+		<span>Dopo 10 secondi le lucciole devono lampeggiare in modo sincronizzato</span>
+	</li>
+</ol>
+
+<h2>Requirement analysis</h2>
+<p>
+	<i>Quali sono le entità del sistema?</i><br>
+	Ho almeno tre entità, ovvero le lucciole (entità indipendenti che non condividono memoria).<br>
+    <i>Cosa devono fare le entità appena nate?</i> <br>
+    Ciascuna deve lampeggiare ad una sua frequenza.<br/>
+    Nel nostro sistema le lucciole saranno dei QActor.
+	<pre>
+System fireflysinch 
+/*
+ * fireflysynch.qak
+ */
+
+ //contesto del sistema
+Context ctxfirefly ip [ host="localhost"      port=8040 ] 
+Context ctxgrid    ip [ host="127.0.0.1"  port=8050 ]
+
+//definiamo 4 Attori: un orchestratore e 3 lucciole.
+QActor cordinator context ctxfirefly {
+}
+ 
+ QActor firefly1 context ctxfirefly  {     
+ 
+	
+}
+
+QActor firefly2 context ctxfirefly  {  
+
+}
+
+QActor firefly3 context ctxfirefly  {  
+}
+ 	 </pre>
+</p>
+
+<p>
+	Alcune opzioni di sincronizzazione potrebbero essere le seguenti:
+	<ol>
+		<li>con un orchestratore: lucciola regina che dopo dieci secondi dice quale frequenza usare</li>
+		<li>con un orchestratore: lucciola regina che emette degli impulsi con la propria frequenza</li>
+		<li>le lucciole dopo 10 secondi commutano su una frequenza concordata</li>
+		<li>le lucciole modificano dopo 10 secondi la loro frequenza su quella dei vicini (per poi scegliere la più alta o la più bassa o una media)</li>
+	</ol>
+</p>	
+
+<h2>Problem analysis</h2>
+<p>
+	Per scegliere quale strategia adottare tra quelle proposte in fase di analisi dei requisiti, è necessario andare ad analizzare i costi di realizzazione e le risorse necessarie in ciascun caso. In questo modo si va a scegliere la soluzione più semplice da realizzare.<br/>
+	In questo sistema è stata adottata la prima soluzione proposta: un orchestratore che attraverso un evento invia una frequenza a cui le lucciole si devono sincronizzare.
+	<a href="https://github.com/marilena-uni/softwareEngineering/blob/main/fireflysynch/src/fireflysynch.qak" target="_blank" rel="noopener noreferrer">Prototipo</a>. 
+</p>
+
+<h2>Test plans</h2> 
+
+
+
+<h2>Project</h2> 
+ 
+
+<h2>Testing</h2> 
+ 
+
+<h2>Deployment</h2> 
+<p>
+	
+</p>
+ 
+<h2>Maintenance</h2> 
+ 
+<!-- USEFUL
+<table style="width:100%" border="1">
+<tr>
+<td style="width:50%">
+</td>
+<td></td>
+</tr>
+</table>
+-->
+	      	
+<br/><br/> 	
+</div>  
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:100%;text-align:left;color:white">
+By Marilena Rugiero  email: marilena.rugiero@studio.unibo.it, 
+<!-- <img src="./img/mbot-S.jpg" alt="mbot" width="15%" height="15%"> -->
+<img src="./img/foto.jpg" alt="foto" width="8%" height="8%">
+GIT repo: https://github.com/marilena-uni/softwareEngineering
+</div> 
+</body>
+</html>
