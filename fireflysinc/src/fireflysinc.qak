@@ -1,0 +1,142 @@
+System fireflysinch 
+/*
+ * fireflysynch.qak
+ * L'actor firefly invia comandi all'actor esterno griddisplay 
+ * per visualizzare il suo stato corrente, che viene
+ * modificato a una frequenza fissa, ma stabilita in modo random. 
+ * Dopo 10 secondi le lucciole si sincronizzano.
+ * 
+ * ATTIVARE griddisplay
+ */
+Dispatch cellstate : cellstate(X,Y,COLOR)     "commute cell state"
+Event timer: timer(T)
+
+
+Context ctxfirefly ip [ host="localhost"      port=8040 ] 
+Context ctxgrid    ip [ host="127.0.0.1"  port=8050 ]
+
+ExternalQActor griddisplay context ctxgrid
+
+QActor cordinator context ctxfirefly {
+	
+	[#   
+	   var SogliaT     = 10000L 
+	   var Timer   = 500L
+ 	#] 
+	State s0 initial{
+		println("$name") color magenta	
+	}
+	
+	Goto synch
+	
+	State synch{ 
+	   emit timer : timer($Timer)
+	}
+	Transition t1 
+	  whenTimeVar SogliaT -> synch
+	
+}
+ 
+ QActor firefly1 context ctxfirefly  {     
+ 
+	[#   
+	   var  X          = 1
+	   var  Y          = 1
+	   var Timer       = 500L 
+ 	#] 
+	State s0 initial{
+		[# Timer = java.util.Random().nextLong(1000L,2000L )  #]  
+		println("$name | X=$X Y=$Y  Timer=$Timer") color magenta	
+	}
+	Goto flash
+	State flash{
+		//delayVar Timer
+		//TurnoOn
+ 		forward griddisplay -m  cellstate : cellstate($X,$Y,1) 				
+ 		delay 500	
+		//TurnoOff
+ 		forward griddisplay -m  cellstate : cellstate($X,$Y,0) 				
+	}
+	Transition t0 
+		whenTimeVar Timer -> flash         //non percepisco flash di altre
+ 	    whenEvent  timer -> change
+ 	
+ 	State change{
+ 	 onMsg( timer : timer(T)){
+	 	  [# Timer =  payloadArg(0).toLong() #]
+ 	  }
+ 	  
+ 	}
+	
+	Goto flash
+}
+
+QActor firefly2 context ctxfirefly  {  
+ 
+	[# 
+	   var  X          = 1
+	   var  Y          = 2
+	   var Timer       = 500L 
+ 	#] 
+
+	State s0 initial{
+		[# Timer = java.util.Random().nextLong(1000L,2000L )  #]  
+		println("$name | X=$X Y=$Y  Timer=$Timer") color blue
+     } 
+    Goto flash
+ 
+	State flash{
+		//delayVar Timer
+		//TurnoOn
+ 		forward griddisplay -m  cellstate : cellstate($X,$Y,1) 				
+ 		delay 500	
+		//TurnoOff
+ 		forward griddisplay -m  cellstate : cellstate($X,$Y,0) 				
+	}
+	Transition t0 
+		whenTimeVar Timer -> flash         //non percepisco flash di altre
+ 		 whenEvent  timer -> change
+ 	
+ 	State change{
+ 		 onMsg( timer : timer(T)){
+	 	  [# Timer =  payloadArg(0).toLong() #]
+ 	  }
+ 	}
+ 	
+ 	Goto flash
+}
+
+QActor firefly3 context ctxfirefly  {  
+ 
+	[#  
+	   var  X          = 1
+	   var  Y          = 3
+	   var Timer       = 500L 
+ 	#] 
+
+	State s0 initial{
+		[# Timer = java.util.Random().nextLong(1000L,2000L )  #]  
+		println("$name | X=$X Y=$Y  Timer=$Timer") color blue
+     } 
+    Goto flash
+ 
+	State flash{
+		//delayVar Timer
+		//TurnoOn
+ 		forward griddisplay -m  cellstate : cellstate($X,$Y,1) 				
+ 		delay 500	
+		//TurnoOff
+ 		forward griddisplay -m  cellstate : cellstate($X,$Y,0) 				
+	}
+	Transition t0 
+		whenTimeVar Timer -> flash         //non percepisco flash di altre
+ 		 whenEvent  timer -> change
+ 	
+ 	State change{
+ 		 onMsg( timer : timer(T)){
+	 	  [# Timer =  payloadArg(0).toLong() #]
+ 	  }
+ 	}
+ 	
+ 	Goto flash
+}
