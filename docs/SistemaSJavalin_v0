@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+<link rel="stylesheet" type="text/css" href="css/mystyle.css">
+<!--
+    <script type="text/javascript" src="../css/issStyle.js"></script>
+-->
+    
+</head>
+   
+<title>SistemaSJavalin</title></head>
+    
+
+<body>
+<div id="top">
+<h1>SistemaSJavalin (da funzione a servizio)</h1>
+</div>  
+
+<div class="body">  
+
+<h2>Introduction</h2>
+<b>Goal:</b> Realizzazione di un servizio in Java di valutazione di una espressione matematica
+
+<h2>Requirements</h2>
+
+ 
+<p>
+	<ul>
+	<li>
+		<b>R1</b> Realizzare un servizio Java che calcoli i valori di una data espressione matematica: sin(x) + cos(&radic;3 * x)
+	</li>
+	<li>	
+		<b>R2</b> Il servizio deve essere raggiungibile sia via WebSocket, sia via HTTP/1 e HTTP/2
+	</li>
+	<li><b>R3</b> L'utente interagisce tramite una pagina html che gli permetta di specificare la x per cui si vuole valutare la funzione e la modalità di interazione (WebSocket, Get o Post)</li>
+	<li>
+		<b>R4</b> Il deployment dell'applicazione deve avvenire mediante Docker
+	</li>
+</ul>
+</p>
+
+<h2>Requirement analysis</h2>
+<p>
+	La funzone da realizzare prende in input un numero reale e restituisce un numero reale ed è la seguente.
+
+	<pre>
+	protected double eval(double x) {
+		return Math.sin(x) + Math.cos( Math.sqrt(3)*x);
+	}
+	</pre>
+    Si rende necessario l'utilizzo javalin per la gestione del flusso di messaggi in arrivo da e verso il componente realizzato. 
+</p>
+
+<h2>Problem analysis</h2>
+	<p>
+	Sulla base dei principi di Separation of Concerns e Clean Architecture il sistema verrà sviluppato con la seguente infrastruttura a livelli, in modo tale che la scelta del framework non influenzi il dominio.<br>
+	<img src="./img/StrutturaBetter.png" alt="infrastruttura" width="75%" height="75%">
+
+ </p>
+
+<h2>Test plans</h2> 
+<pre></pre>
+
+
+<h2>Project</h2> 
+ <pre></pre>
+ 
+
+<h2>Testing</h2> 
+ <pre></pre>
+
+
+<h2>Deployment</h2> 
+<p>Il deployment avviene mediante Docker.</p>
+
+ 
+<h2>Maintenance</h2> 
+ <pre></pre>
+
+<!-- USEFUL
+<table style="width:100%" border="1">
+<tr>
+<td style="width:50%">
+</td>
+<td></td>
+</tr>
+</table>
+-->
+	      	
+<br/><br/> 	
+</div>  
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:70%;text-align:left;color:white">
+By Meriem Laaouaj email: meriem.laaouaj@studio.unibo.it, 
+<!-- <img src="./img/mbot-S.jpg" alt="mbot" width="15%" height="15%"> -->
+<img src="./img/immagine.jpg" alt="img" width="10%" height="80%">
+GIT repo: https://github.com/merilaaouaj/IngegneriaSistemiSoftware
+</div> 
+</body>
+</html>
