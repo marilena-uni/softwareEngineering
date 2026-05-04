@@ -43,7 +43,7 @@ Il committente fissa in aggiunta i seguenti requisiti:
 </p> 
 
 <h2>Requirement analysis</h2>
-<p>Il dominio dell'applicazione è stato definito precedentemente nello <a href="https://github.com/merilaaouaj/IngegneriaSistemiSoftware/blob/bfb0510044af7452774261c4b4137c9cd079fead/docs/conway26Java_v0.html">Sprint1</a></p>
+<p>Il dominio dell'applicazione è stato definito precedentemente nello <a href="https://github.com/marilena-uni/softwareEngineering/blob/main/docs/conway26Java_v0">Sprint1</a></p>
 
 <h2>Problem analysis</h2>
  <p>Analizzo l'architettura del sistema che voglio realizzare riportata di seguente</p><br>
@@ -64,7 +64,7 @@ Il committente fissa in aggiunta i seguenti requisiti:
  
 
 <h2>Deployment</h2> 
-<p> Il deployment avviene tramite piattaforma Docker, grazie ai seguenti file: <a href="https://github.com/merilaaouaj/IngegneriaSistemiSoftware/blob/bfb0510044af7452774261c4b4137c9cd079fead/ConwayLife/Sprint3/conway26GuiHtml/Dockerfile">Dockerfile</a> e <a href="https://github.com/merilaaouaj/IngegneriaSistemiSoftware/blob/bfb0510044af7452774261c4b4137c9cd079fead/ConwayLife/Sprint3/conway26GuiHtml/conway26GuiHtml.yaml">conway26GuiHtml.yaml</a></p>
+<p> Il deployment avviene tramite piattaforma Docker, grazie ai seguenti file: <a href="https://github.com/marilena-uni/softwareEngineering/blob/main/ConwayLife/Sprint3/conway26GuiHtml/Dockerfile">Dockerfile</a> e <a href="https://github.com/merilaaouaj/IngegneriaSistemiSoftware/blob/bfb0510044af7452774261c4b4137c9cd079fead/ConwayLife/Sprint3/conway26GuiHtml/conway26GuiHtml.yaml">conway26GuiHtml.yaml</a></p>
  
 <h2>Maintenance</h2> 
 
@@ -83,10 +83,10 @@ Il committente fissa in aggiunta i seguenti requisiti:
 </div>  
 
 <div style="background-color:rgba(86, 56, 253, 0.9); width:70%;text-align:left;color:white">
-By Meriem Laaouaj email: meriem.laaouaj@studio.unibo.it, 
+By Marilena Rugiero  email: marilena.rugiero@studio.unibo.it, 
 <!-- <img src="./img/mbot-S.jpg" alt="mbot" width="15%" height="15%"> -->
-<img src="./img/immagine.jpg" alt="img" width="10%" height="80%">
-GIT repo: https://github.com/merilaaouaj/IngegneriaSistemiSoftware
+<img src="C:\Users\LENOVO\Downloads\issLab2026\docs\_images\marilena-r.png" alt="foto" width="8%" height="8%">
+GIT repo: https://github.com/marilena-uni/softwareEngineering
 </div> 
 </body>
 </html>
