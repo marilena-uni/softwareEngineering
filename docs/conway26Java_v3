@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+<link rel="stylesheet" type="text/css" href="css/mystyle.css">
+<!--
+    <script type="text/javascript" src="../css/issStyle.js"></script>
+-->
+    
+</head>
+<title>Sprint3: conway26Java_v3</title>
+ 
+<body>
+<div id="top">
+<h1>ConwayLife Sprint3 - Javalin Integrato</h1>
+</div>  
+
+<div class="body">  
+
+<h2>Introduction</h2>
+<b>Goal</b>: Procediamo ad una evoluzione del sistema
+<a href='https://anatali.github.io/issLab2026/_static/docs/Protobook.pdf#chapter.10'>GAME OF LIFE DI CONWAY</a>
+con i requisiti spiegati in seguito.
+
+<h2>Requirements</h2>
+<p>
+Il committente fissa in aggiunta i seguenti requisiti: 
+<ul>
+  <li><b>R1</b> Dotare il gioco Life di Conway di una pagina HTML come dispositivo I/O.
+    Il gioco consiste nell’introdurre una Griglia di Celle il cui stato (cella ‘viva’ o cella ‘morta’) 
+    evolve come stabilito dallle regole di ConwayLife</li>
+  <li><b>R2</b> La pagina deve costituire un componente esterno alla applicazione secondo la architettura riportata in IoJavalin
+    esterno alla applicazione</li>
+  <li><b>R3</b> Il gestore del gioco sarà l’utente che ha aperto per primo (owner) una pagina HTML collegata al gioco. In altre
+    parole, solo la pagina dell’owner avrà pulsanti di comando START/STOP/CLEAN/EXIT attivi</li>
+     <li><b>R4</b> La pagina HTML deve essere aggiornata in modo automatico man mano il gioco procede</li>
+     <li><b>R5</b>  Un utente non owner che si collega mentre il gioco è in corso, dovrebbe vedere lo stato attuale della griglia in
+    modo corretto</li>
+ <li><b>R6</b> In maniera opzionale la pagina HTML deve indicare se il gioco continua anche nel caso di griglia vuota o di configurazione tabile</li>
+     <li><b>R7</b> Il deployment del gioco deve avvenire mediante Docker.</li>
+
+</ul>
+</p> 
+
+<h2>Requirement analysis</h2>
+<p>Il dominio dell'applicazione è stato definito precedentemente nello <a href="https://github.com/merilaaouaj/IngegneriaSistemiSoftware/blob/bfb0510044af7452774261c4b4137c9cd079fead/docs/conway26Java_v0.html">Sprint1</a></p>
+
+<h2>Problem analysis</h2>
+ <p>Analizzo l'architettura del sistema che voglio realizzare riportata di seguente</p><br>
+  <img src="./img/JavalinIntegrato.png" width="75%" height="75%"> <br>
+ Oltre alle classi già realizzate, viene aggiunto il componente OutInWs che dovrà implementare l'interfaccia di IOutDev (già definita), incapsulando il server IoJavalin, per la comunicazione con la pagina html ConwayInOutPage visualizzata via browser. 
+ Questa classe ha la funzione di fare da mediatore tra il LifeController, che ha il ruolo di gestire l'evoluzione del gioco, e il browser, che invece offre una rappresentazione grafica del gioco. 
+ <br>
+ L'interazione tra OutInWs e la pagina web avviene tramite scambio di messaggi che seguano un protocollo definito in maniera tale da permettere la loro corretta interpretazione. 
+<br>I messaggi scambiati seguono la struttura dettata da <a href="https://anatali.github.io/issLab2026/_static/docs/Protobook.pdf#subsection.9.2.1">IAppMessage</a>
+ <h2>Test plans</h2> 
+
+
+<h2>Project</h2> 
+ 
+ 
+
+<h2>Testing</h2> 
+ 
+
+<h2>Deployment</h2> 
+<p> Il deployment avviene tramite piattaforma Docker, grazie ai seguenti file: <a href="https://github.com/merilaaouaj/IngegneriaSistemiSoftware/blob/bfb0510044af7452774261c4b4137c9cd079fead/ConwayLife/Sprint3/conway26GuiHtml/Dockerfile">Dockerfile</a> e <a href="https://github.com/merilaaouaj/IngegneriaSistemiSoftware/blob/bfb0510044af7452774261c4b4137c9cd079fead/ConwayLife/Sprint3/conway26GuiHtml/conway26GuiHtml.yaml">conway26GuiHtml.yaml</a></p>
+ 
+<h2>Maintenance</h2> 
+
+ 
+<!-- USEFUL
+<table style="width:100%" border="1">
+<tr>
+<td style="width:50%">
+</td>
+<td></td>
+</tr>
+</table>
+-->
+	      	
+<br/><br/> 	
+</div>  
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:70%;text-align:left;color:white">
+By Meriem Laaouaj email: meriem.laaouaj@studio.unibo.it, 
+<!-- <img src="./img/mbot-S.jpg" alt="mbot" width="15%" height="15%"> -->
+<img src="./img/immagine.jpg" alt="img" width="10%" height="80%">
+GIT repo: https://github.com/merilaaouaj/IngegneriaSistemiSoftware
+</div> 
+</body>
+</html>
