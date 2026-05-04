@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+<link rel="stylesheet" type="text/css" href="css/mystyle.css">
+<!--
+    <script type="text/javascript" src="../css/issStyle.js"></script>
+-->
+    
+</head>
+<title>Sprint2: conway26Java_v2</title>
+ 
+<body>
+<div id="top">
+<h1>ConwayLife Sprint2</h1>
+</div>  
+
+<div class="body">  
+
+<h2>Introduction</h2>
+<b>Goal</b>: Dotare il sistema
+<a href='https://anatali.github.io/issLab2026/_static/docs/Protobook.pdf#chapter.10'>GAME OF LIFE DI CONWAY</a>
+di un'intrfaccia grafica per l'interazione con l'utente. con i requisiti spiegati in seguito.
+
+<h2>Requirements</h2>
+<p>
+Il committente fissa in aggiunta i seguenti requisiti: 
+<ul>
+  <li><b>R1</b> Visualizzare la griglia di gioco tramite interfaccia Java Swing con cui l'utente può interagire</li>
+</ul>
+</p> 
+
+<h2>Requirement analysis</h2>
+<p>La logica del gioco è stata analizzata precedentemente nello <a href="https://github.com/merilaaouaj/IngegneriaSistemiSoftware/blob/bfb0510044af7452774261c4b4137c9cd079fead/docs/conway26Java_v0.html">Sprint1</a><br>
+Si estende il sistema realizzato in precedenza con un dispositivo I/O senza alcuna modifica della logica dell'applicazione.</p>
+
+<h2>Problem analysis</h2>
+
+<h2>Test plans</h2> 
+
+
+<h2>Project</h2> 
+ 
+<h2>Testing</h2> 
+ 
+
+<h2>Deployment</h2> 
+ 
+<h2>Maintenance</h2> 
+
+ 
+<!-- USEFUL
+<table style="width:100%" border="1">
+<tr>
+<td style="width:50%">
+</td>
+<td></td>
+</tr>
+</table>
+-->
+	      	
+<br/><br/> 	
+</div>  
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:70%;text-align:left;color:white">
+By Meriem Laaouaj email: meriem.laaouaj@studio.unibo.it, 
+<!-- <img src="./img/mbot-S.jpg" alt="mbot" width="15%" height="15%"> -->
+<img src="./img/immagine.jpg" alt="img" width="10%" height="80%">
+GIT repo: https://github.com/merilaaouaj/IngegneriaSistemiSoftware
+</div> 
+</body>
+</html>
