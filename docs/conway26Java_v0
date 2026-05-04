@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+<link rel="stylesheet" type="text/css" href="css/mystyle.css">
+<!--
+    <script type="text/javascript" src="../css/issStyle.js"></script>
+-->
+    
+</head>
+<title>Sprint1: conway26Java_v0</title>
+ 
+<body>
+<div id="top">
+<h1>ConwayLife Sprint1</h1>
+</div>  
+
+<div class="body">  
+
+<h2>Introduction</h2>
+<b>Goal</b>: Realizzazione in Java del
+<a href='https://anatali.github.io/issLab2026/_static/docs/Protobook.pdf#chapter.6'>GAME OF LIFE DI CONWAY</a>
+limitatamente al <b>requisito  R1</b>.
+
+<h2>Requirements</h2>
+
+ 
+<!-- <div class="remark"> -->
+<pre>
+R1  Realizzare una versione in Java del gioco Life di Conway, come gioco zero-player. 
+    Il gioco consiste nell’introdurre una Griglia di Celle il cui stato (cella ‘viva’ o cella ‘morta’) 
+    evolve come stabilito dallle regole di ConwayLife
+
+R2  L’utente umano deve poter:
+     - specificare la configurazione iniziale della griglia del gioco	
+     - vedere l’evoluzione del gioco in forma opportuna 
+        (si veda <a href='https://anatali.github.io/issLab2026/_static/docs/Protobook.pdf#section.6.3'>Problema della vista del gioco</a> )
+     - fermare e far ripartire l’evoluzione del gioco
+     - pulire (a gioco fermo) la configurazione della griglia del gioco
+
+</pre>
+  
+
+<h2>Requirement analysis</h2>
+A partire dal requisito R1 si individuano le entità logiche che compongono il dominio del problema quali Cell, Grid e Life. <br>
+Ci poniamo una domanda fondamentale: cosa intende il committente per Cell, Grid e Life? <br>
+
+<pre>
+<b>Cosa intende il committente per Cell?</b><br>
+Per l'entità Cell formalizzo il seguente <a href="https://github.com/merilaaouaj/IngegneriaSistemiSoftware/blob/main/ConwayLife/Sprint1/Sprint1/conway26Java/src/main/java/conway/domain/ICell.java" target="_blank" rel="noopener noreferrer">modello</a>.<br/>
+Cell è atomica, ha un proprio stato interno (viva o morta) e ha la possibilità di modificarlo (da viva a morta e viceversa). 
+Per definire, invece, il comportamento attesso da una cella realizzo il seguente <a href="https://github.com/merilaaouaj/IngegneriaSistemiSoftware/blob/main/ConwayLife/Sprint1/Sprint1/conway26Java/src/main/java/test/CellTest.java" target="_blank" rel="noopener noreferrer">TestPlan</a>. 
+</pre>
+	
+<pre>
+<b>Cosa intende il committente per Grid?</b><br>
+Per Grid formalizzo il seguente <a href="https://github.com/merilaaouaj/IngegneriaSistemiSoftware/blob/main/ConwayLife/Sprint1/Sprint1/conway26Java/src/main/java/conway/domain/IGrid.java" target="_blank" rel="noopener noreferrer">modello</a>.<br/>
+L'entità Grid è composta da Cell. E' un'entitò a due dimensioni, quali colonne e righe. <br>
+Quindi, l'entità Grid ha la possibilità di restituire le proprie dimensioni e una cella che la compone. Inoltre può settare lo stato di una cella, ottere il suo valore e resettare la Grid impostando tutte le celle di cui è composto a morte.<br>
+Per esprimere i requisiti che le interfacce non sono in grado di esprimere, sviluppo il seguente <a href="https://github.com/merilaaouaj/IngegneriaSistemiSoftware/blob/main/ConwayLife/Sprint1/Sprint1/conway26Java/src/main/java/test/GridTest.java" target="_blank" rel="noopener noreferrer">TestPlan</a>.
+</pre>
+
+<pre>
+<b>Cosa intende il committente per Life?</b><br>
+Il committente non ha idea di cosa sia Life, ma mi informa che è la logica del gioca (contiene le regole). 
+Per Life, quindi, formalizzo il seguente <a href="https://github.com/merilaaouaj/IngegneriaSistemiSoftware/blob/main/ConwayLife/Sprint1/Sprint1/conway26Java/src/main/java/conway/domain/LifeController.java" target="_blank" rel="noopener noreferrer">modello</a>.<br/>
+Per esprimere i requisiti che le interfacce non sono in grado di esprimere, sviluppo il seguente <a href="https://github.com/merilaaouaj/IngegneriaSistemiSoftware/blob/main/ConwayLife/Sprint1/Sprint1/conway26Java/src/main/java/test/LifeTest.java" target="_blank" rel="noopener noreferrer">TestPlan</a>.
+</pre>
+
+
+<h2>Problem analysis</h2>
+ 	
+ <img src="./img/UMLdiag.png" alt="diagrammaUML" width="75%" height="75%">
+
+<h2>Test plans</h2> 
+<pre></pre>
+
+<h2>Project</h2> 
+ <pre></pre>
+ 
+
+<h2>Testing</h2> 
+ <pre></pre>
+
+<h2>Deployment</h2> 
+<pre></pre>
+ 
+<h2>Maintenance</h2> 
+ <pre></pre>
+<!-- USEFUL
+<table style="width:100%" border="1">
+<tr>
+<td style="width:50%">
+</td>
+<td></td>
+</tr>
+</table>
+-->
+	      	
+<br/><br/> 	
+</div>  
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:70%;text-align:left;color:white">
+By Meriem Laaouaj email: meriem.laaouaj@studio.unibo.it, 
+<!-- <img src="./img/mbot-S.jpg" alt="mbot" width="15%" height="15%"> -->
+<img src="./img/immagine.jpg" alt="img" width="10%" height="80%">
+GIT repo: https://github.com/merilaaouaj/IngegneriaSistemiSoftware
+</div> 
+</body>
+</html>
