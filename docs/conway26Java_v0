@@ -47,24 +47,24 @@ Ci poniamo una domanda fondamentale: cosa intende il committente per Cell, Grid 
 
 <pre>
 <b>Cosa intende il committente per Cell?</b><br>
-Per l'entità Cell formalizzo il seguente <a href="https://github.com/merilaaouaj/IngegneriaSistemiSoftware/blob/main/ConwayLife/Sprint1/Sprint1/conway26Java/src/main/java/conway/domain/ICell.java" target="_blank" rel="noopener noreferrer">modello</a>.<br/>
+Per l'entità Cell formalizzo il seguente <a href="https://github.com/marilena-uni/softwareEngineering/blob/main/ConwayLife/Sprint1/conway26Java/src/main/java/conway/domain/ICell.java" target="_blank" rel="noopener noreferrer">modello</a>.<br/>
 Cell è atomica, ha un proprio stato interno (viva o morta) e ha la possibilità di modificarlo (da viva a morta e viceversa). 
-Per definire, invece, il comportamento attesso da una cella realizzo il seguente <a href="https://github.com/merilaaouaj/IngegneriaSistemiSoftware/blob/main/ConwayLife/Sprint1/Sprint1/conway26Java/src/main/java/test/CellTest.java" target="_blank" rel="noopener noreferrer">TestPlan</a>. 
+Per definire, invece, il comportamento attesso da una cella realizzo il seguente <a href="https://github.com/marilena-uni/softwareEngineering/blob/main/ConwayLife/Sprint1/conway26Java/src/main/java/test/CellTest.java" target="_blank" rel="noopener noreferrer">TestPlan</a>. 
 </pre>
 	
 <pre>
 <b>Cosa intende il committente per Grid?</b><br>
-Per Grid formalizzo il seguente <a href="https://github.com/merilaaouaj/IngegneriaSistemiSoftware/blob/main/ConwayLife/Sprint1/Sprint1/conway26Java/src/main/java/conway/domain/IGrid.java" target="_blank" rel="noopener noreferrer">modello</a>.<br/>
+Per Grid formalizzo il seguente <a href="https://github.com/marilena-uni/softwareEngineering/blob/main/ConwayLife/Sprint1/conway26Java/src/main/java/conway/domain/IGrid.java" target="_blank" rel="noopener noreferrer">modello</a>.<br/>
 L'entità Grid è composta da Cell. E' un'entitò a due dimensioni, quali colonne e righe. <br>
 Quindi, l'entità Grid ha la possibilità di restituire le proprie dimensioni e una cella che la compone. Inoltre può settare lo stato di una cella, ottere il suo valore e resettare la Grid impostando tutte le celle di cui è composto a morte.<br>
-Per esprimere i requisiti che le interfacce non sono in grado di esprimere, sviluppo il seguente <a href="https://github.com/merilaaouaj/IngegneriaSistemiSoftware/blob/main/ConwayLife/Sprint1/Sprint1/conway26Java/src/main/java/test/GridTest.java" target="_blank" rel="noopener noreferrer">TestPlan</a>.
+Per esprimere i requisiti che le interfacce non sono in grado di esprimere, sviluppo il seguente <a href="https://github.com/marilena-uni/softwareEngineering/blob/main/ConwayLife/Sprint1/conway26Java/src/main/java/test/GridTest.java" target="_blank" rel="noopener noreferrer">TestPlan</a>.
 </pre>
 
 <pre>
 <b>Cosa intende il committente per Life?</b><br>
 Il committente non ha idea di cosa sia Life, ma mi informa che è la logica del gioca (contiene le regole). 
-Per Life, quindi, formalizzo il seguente <a href="https://github.com/merilaaouaj/IngegneriaSistemiSoftware/blob/main/ConwayLife/Sprint1/Sprint1/conway26Java/src/main/java/conway/domain/LifeController.java" target="_blank" rel="noopener noreferrer">modello</a>.<br/>
-Per esprimere i requisiti che le interfacce non sono in grado di esprimere, sviluppo il seguente <a href="https://github.com/merilaaouaj/IngegneriaSistemiSoftware/blob/main/ConwayLife/Sprint1/Sprint1/conway26Java/src/main/java/test/LifeTest.java" target="_blank" rel="noopener noreferrer">TestPlan</a>.
+Per Life, quindi, formalizzo il seguente <a href="https://github.com/marilena-uni/softwareEngineering/blob/main/ConwayLife/Sprint1/conway26Java/src/main/java/conway/domain/LifeController.java" target="_blank" rel="noopener noreferrer">modello</a>.<br/>
+Per esprimere i requisiti che le interfacce non sono in grado di esprimere, sviluppo il seguente <a href="https://github.com/marilena-uni/softwareEngineering/blob/main/ConwayLife/Sprint1/conway26Java/src/main/java/test/LifeTest.java" target="_blank" rel="noopener noreferrer">TestPlan</a>.
 </pre>
 
 
