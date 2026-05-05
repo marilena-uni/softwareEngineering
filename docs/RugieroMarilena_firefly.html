@@ -67,7 +67,10 @@ QActor firefly3 context ctxfirefly  {
  	 </pre>
 </p>
 
-<p>
+
+
+<h2>Problem analysis</h2>
+	<p>
 	Alcune opzioni di sincronizzazione potrebbero essere le seguenti:
 	<ol>
 		<li>con un orchestratore: lucciola regina che dopo dieci secondi dice quale frequenza usare</li>
@@ -76,8 +79,6 @@ QActor firefly3 context ctxfirefly  {
 		<li>le lucciole modificano dopo 10 secondi la loro frequenza su quella dei vicini (per poi scegliere la più alta o la più bassa o una media)</li>
 	</ol>
 </p>	
-
-<h2>Problem analysis</h2>
 <p>
 	Per scegliere quale strategia adottare tra quelle proposte in fase di analisi dei requisiti, è necessario andare ad analizzare i costi di realizzazione e le risorse necessarie in ciascun caso. In questo modo si va a scegliere la soluzione più semplice da realizzare.<br/>
 	In questo sistema è stata adottata la prima soluzione proposta: un orchestratore che attraverso un evento invia una frequenza a cui le lucciole si devono sincronizzare.
