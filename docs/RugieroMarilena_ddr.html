@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+<link rel="stylesheet" type="text/css" href="css/mystyle.css">
+<!--
+    <script type="text/javascript" src="../css/issStyle.js"></script>
+-->
+    
+</head>
+   
+<title>ddr_v0</title></head>
+    
+
+<body>
+<div id="top">
+<h1>DDR Sprint1</h1>
+</div>  
+
+<div class="body">  
+
+<h2>Introduction</h2>
+<b>Goal: </b> Costruire un sistema software che comanda un Differential Drive Robot (DDR) in modo che, partendo dalla posizione iniziale HOME, il robot si sposti lungo il perimetro di una stanza rettangolare vuota. 
+
+<h2>Requirements</h2>
+<p>
+	Costruire un sistema software che comanda un Differential Drive Robot (DDR) in modo che, 
+	partendo dalla posizione iniziale HOME, il robot si sposti lungo il perimetro di una stanza rettangolare vuota. <br/>
+	Il DDR si deve fermare quando tornato in HOME.
+</p>
+<p>
+	Il DDR è anche sensibile ai dati rilevati da un Radar.
+	Quando il Radar rileva un 'intruso' a una distanza minore di una distanza prefissata ``DMIN``:
+	<ul>
+		<li>se il DDR si sta muovendo , il DDR si ferma fino a che il Radar non rileva più un 'intruso' così vicino </li>
+		<li>se il DDR è fermo in HOME, il DDR ruota su sè stesso fino a che un 'intruso' così vicino scompare</li>
+	</ul>
+</p>
+
+<h2>Requirement analysis</h2>
+<p>
+	<!--Prima domanda: quante entità ho e che natura hanno? METADOMANDA!
+	Prima domanda: cos'è un DDR? ok robot, ma che proprietà ha? move e rotate-->
+	Il sistema software preso in esame è composto dalle seguenti entità:<br/>
+	<ul>
+		<li>
+			<b>HOME</b>: nei requisiti si parla di HOME come posizione iniziale in cui il DDR si trova all'interno della stanza e posizione finale del percorso lungo il perimetro della stanza.<br/>
+			Tuttavia ho bisogno di trovare un modo per formalizzare questa informazione. Per poter modellare la HOME ho bisogna prima di trovare un modo per formalizzare la stanza. 
+			Posso modellare la stanza come un rettangolo in un piano euclideo con base B e altezza H, dove entrambe le misure sono espresse in metri. Introducendo gli assi cartesiani mi viene spontaneo dire che
+			indicherò con una coppia di coordinate X e Y una posizione all'interno della stanza. Bisogna però tenere presente che il robot non è un punto, ma occuperà un'area che assumo quadrata di lato R. 
+			Posso quindi misurare la stanza in unità robotiche. Come si intuisce dell'immagine presentata di seguito, risulta immediato andare a rappresentare la stanza come una griglia, dove ogni cella sarà un'unità robotica.<br/>
+			HOME sarà quindi un'area in grado di contenere il robot, ovvero una cella predefinta all'interno della griglia che rappresenta la stanza.<br/>
+			<img src="./img/stanzaDDR.drawio.png" alt="foto" width="25%" height="25%"><br/>
+			Possiamo formalizzare quanto detto con il seguente codice Kotlin:
+			<pre>
+[# 
+	/**
+ 	 * Stanza DDR
+	 *
+ 	 * Sistema di riferimento: asse x verso destra, asse y verso il basso (convenzione grafica).
+ 	 *
+ 	 * @property B larghezza della stanza in unità robotiche (numero di celle su x)
+ 	 * @property H altezza della stanza in unità robotiche (numero di celle su y)
+  	 * @property R lato dell'unità robotica in metri — coincide con il lato di ogni cella
+ 	 *
+ 	 * Dimensioni fisiche della stanza: (B * R) metri × (H * R) metri
+ 	 */
+	data class Stanza(
+    	val B: Double,
+    	val H: Double,
+    	val R: Double
+	) {
+	    /** Larghezza fisica della stanza in metri */
+	    val larghezzaMetri: Double get() = B * R
+
+    	/** Altezza fisica della stanza in metri */
+    	val altezzaMetri: Double get() = H * R
+
+    	/** Posizione HOME: angolo in alto a sinistra, cella (0, 0) */
+    	val home: Posizione = Posizione(0, 0)
+	}
+
+	/**
+ 	 * Posizione nella griglia, espressa in unità robotiche (celle).
+ 	 * (0, 0) corrisponde a HOME (angolo in alto a sinistra).
+ 	 *
+ 	 * @property x colonna (asse orizzontale, cresce verso destra)
+  	 * @property y riga   (asse verticale,   cresce verso il basso)
+	 */
+	data class Posizione(val x: Int, val y: Int)
+#]
+			</pre>
+		</li>
+		<li>
+			<b>Radar</b>: è un'entità prottiva che controlla, a intervalli regolari, i dintorni del DDR e rileva eventuali 'intrusi' che si trovino ad una distanza inferiore di DMIN.<br/>
+			La proprietà fondamentale del radar è quindi quella di rendere disponibili delle informazioni al sistema, ovvero la distanza rilevata D (in metri). 
+			Poiché ho ha disposizione il linguaggio costum QAK decido di formalizzare il radar come un 
+			<a href="https://anatali.github.io/issLab2026/_static/docs/Protobook.pdf#section.17.1" target="_blank" rel="noopener noreferrer">attore</a>.<br/>
+			Poiché è necesario che le informazioni possano essere utilizzate dal sistema (per variare il comportamento del DDR), è necessario formalizzare il metodo con cui questi dati sono accessibili. Ci sono due opzioni:
+			<ol>
+				<li>
+					può essere il radar a comunicare, tramite un evento (poiché non conosce il destinatario dell'informazione) la distanza rilevata. In questo caso formalizzo il seguente attore:
+					<pre>
+System ddrsystem
+
+/*
+ * MODELLO DELL'ANALISTA
+ */
+ 
+// -----definizione dei messaggi-----
+Event radar : distance(D)
+
+// -----definizione del contesto-----
+Context ctxddrsys	ip [ host="localhost" 	port=8010 ]
+
+// -----definizione degli attori-----
+QActor radar context ctxddrsys {
+	[# 
+		var D = 0
+		var Timer = 1000L
+	 #]
+	State s0 initial {
+		println("$name | starting") color green
+	}
+	Goto rileva_distanza
+	
+	State rileva_distanza{
+		// rilevamento della distanza D (in metri)
+		emit radar : distance(D)
+	}
+	Transition t0 
+		whenTimeVar Timer -> rileva_distanza
+}
+					</pre>
+				</li>
+				<li>
+					altrimenti, il radar potrebbe comunicare a distanza rilevata in risposta ad una richiesta del sistema. In questo caso formalizzo il seguente attore:
+					<pre>
+System ddrsystem
+
+/*
+ * MODELLO DELL'ANALISTA
+ */
+ 
+// -----definizione dei messaggi-----
+Request getDistance : getDistance(D) "richiesta del sistema"
+Reply   radar : distance(D)   for getDistance
+
+// -----definizione del contesto-----
+Context ctxddrsys	ip [ host="localhost" 	port=8010 ]
+
+// -----definizione degli attori-----
+QActor radar context ctxddrsys {
+	[# 
+		var D = 0
+		var Timer = 1000L
+	 #]
+	State s0 initial {
+		println("$name | starting") color green
+	}
+	Goto rileva_distanza
+	
+	State rileva_distanza{
+		// rilevamento della distanza D (in metri)
+	}
+	Transition t0 
+		whenTimeVar Timer -> rileva_distanza
+		whenRequest getDistance -> handleRequest
+   
+	State handleRequest{
+ 		onMsg( getDistance : getDistance(D) ){
+ 			replyTo getDistance with radar : distance( $D )  
+ 		} 
+	}  
+	Transition t0 
+		whenTimeVar Timer -> rileva_distanza
+}
+					</pre>
+				</li>
+			</ol>
+		</li>
+		<li>
+			<b>Differential Drive Robot (DDR)</b>: è un'entià reattiva, priva della capacità di fare cose: è un semplice attuatore di comandi. Arrivo a questa conclusione poiché il committente mi ha chiesto di realizzare un sistema per lo camandi.
+			Il committente lo ha già a disposizione e mi fornisce il suo codice: 
+			<a href="https://github.com/anatali/issLab2026/tree/main/it.unibo.virtualRobot2026" target="_blank" rel="noopener noreferrer">DDR</a>.<br/>
+			Il DDR è capace, a richiesta di altri, di: muoversi in avanti e di ruotare su sè stesso di 90°.
+		</li>
+		<li>
+			<b>Mind</b>: è il sistema, che si occuperà di controllare il DDR come da specifiche. Lo farà muovere lungo il perimetro della stanza, partendo e arrivando in HOME.<br/>
+			Inoltre, si occuperà di comunciare con il radar (mettendosi in ascolto dei suoi eventi o con una richiesta espiclita, a seconda del modello di rad scelto). Se la distanza rilevata dal radar è inferiore ad una soglia fissata DMIN, Mind dovrà entrare in stato di allarme.
+			Il comportamento varia a seconda dello stato in cui si trova il DDR nel momento di ricezione del messaggio:	se il DDR è in movimento, si deve fermare; se invece il DDR è fermo in HOME, deve ruotare su sè stesso. Questo comportamento deve continuare fino a che l'intruso non scompare, uscendo dalla zona critica. 
+			A questo punto Mind ritornerà allo stato in cui era stato interrotto.<br/>
+			Per formalizzare quanto detto realizzo il seguente 
+			<a href="https://anatali.github.io/issLab2026/_static/docs/Protobook.pdf#section.17.1" target="_blank" rel="noopener noreferrer">attore</a>:
+			<pre>
+QActor mind context ctxddrsys withobj ddr using "Method"{
+	[# var DMIN = 0.5 // in metri #]
+	 State s0 initial {
+	 	println("$name | starting") color cyan
+	 	// muove ddr sul perimetro della stanza, utilizzando i metodi esposti da ddr
+	 }
+	 Transition t0
+	 	whenEvent radar -> handleRadar
+	 	
+	 State handleRadar{
+	 	onMsg(radar : distance(D) ){
+	 		[# 
+				val D_string = payloadArg(0)
+				var D = D_string.toLong()
+			#]
+			/* 
+			 * se D è minore di DMIN si entra in stato di allarme:
+			 * - se il ddr era in movimento si ferma
+			 * - se il ddr era già rientrato in HOME comincia a ruotare su sè stesso
+			 * questo fino a che D non torna maggiore di DMIN
+			 */
+	 	}
+	 }
+	 Goto s0
+	 
+}
+			</pre>
+		</li>
+	</ul>
+</p>	
+
+<h2>Problem analysis</h2>
+
+
+<h2>Test plans</h2> 
+
+
+
+<h2>Project</h2> 
+ 
+
+<h2>Testing</h2> 
+ 
+
+<h2>Deployment</h2> 
+<p>
+	
+</p>
+ 
+<h2>Maintenance</h2> 
+ 
+<!-- USEFUL
+<table style="width:100%" border="1">
+<tr>
+<td style="width:50%">
+</td>
+<td></td>
+</tr>
+</table>
+-->
+	      	
+<br/><br/> 	
+</div>  
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:100%;text-align:left;color:white">
+By Marilena Rugiero  email: marilena.rugiero@studio.unibo.it, 
+<!-- <img src="./img/mbot-S.jpg" alt="mbot" width="15%" height="15%"> -->
+<img src="https://github.com/marilena-uni/softwareEngineering/blob/main/docs/_images/marilena-r.png" alt="foto" width="8%" height="8%">
+GIT repo: https://github.com/marilena-uni/softwareEngineering
+</div> 
+</body>
+</html>
